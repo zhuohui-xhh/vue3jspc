@@ -9,7 +9,7 @@
     "build:test": "vite build --mode test",
     "build:pro": "vite build --mode production",
     "preview": "vite preview",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .eslintignore",
     "format": "prettier --write src/",
     "prepare": "husky"
   },
