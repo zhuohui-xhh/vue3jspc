@@ -29,11 +29,11 @@ export default defineConfig(({ command, mode }) => {
         '@': fileURLToPath(new URL('./src', import.meta.url))
       }
     },
-
     // vite 配置 - 添加全局环境变量，可以在js代码中直接访问到
-    define: {
-      __APP_VERSION__: '3000'
-    },
+    // 当前功能可以使用-import.meta.env代替
+    // define: {
+    //   __APP_VERSION__: '3000'
+    // },
     server: {
       port: env.VITE_APP_PORT, // 端口:使用的是，环境变量中的配置
       https: false, // 是否开启 https

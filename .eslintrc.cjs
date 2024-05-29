@@ -23,7 +23,8 @@ module.exports = {
     //【todo】 这里的环境变量是什么时候生效,
     // 'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     // 'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-console': 'error',
+    // 'no-debugger'：'warn',
+    // 'no-console': 'warn',
     'no-unexpected-multiline': 'error', // 禁止空余的多行
     'no-useless-escape': 'off', // 禁止不必要的转义字符
 
