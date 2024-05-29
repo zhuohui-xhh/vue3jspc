@@ -1,6 +1,7 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from '@/components/HelloWorld.vue'
+const open = () => {
+  ElMessage('This is a message.')
+}
 </script>
 
 <template>
@@ -9,9 +10,8 @@ import HelloWorld from '@/components/HelloWorld.vue'
 
     <div class="wrapper">
       <HelloWorld msg="You did it!" />
-
       <nav>
-        <el-button>Default</el-button>
+        <el-button :plain="true" @click="open">Show message</el-button>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
       </nav>

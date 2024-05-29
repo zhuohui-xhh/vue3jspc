@@ -2,18 +2,9 @@ import { fileURLToPath, URL } from 'node:url'
 
 import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
-
-// https://vitejs.dev/config/
-// 如下是默认方式配置
-// export default defineConfig({
-//   plugins: [vue()],
-//   resolve: {
-//     alias: {
-//       // 配置scr路径别名
-//       '@': fileURLToPath(new URL('./src', import.meta.url))
-//     }
-//   }
-// })
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
 // 配置文件中访问环境变量
 export default defineConfig(({ command, mode }) => {
@@ -22,7 +13,46 @@ export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   return {
     // dev 独有配置
-    plugins: [vue()],
+    plugins: [
+      vue(),
+      // 自动导入组件
+      AutoImport({
+        //预设名称或自定义导入映射: 自动导入 Vue 相关函数，如：ref, reactive, toRef 等
+        imports: [
+          //这里相关的模块是可以自动更新到.eslintrc-auto-import.json，第三方的好像不行
+          'vue',
+          'vue-router',
+          // 详细配置
+          {
+            // '@vueuse/core': [
+            //   // named imports
+            //   'useMouse', // import { useMouse } from '@vueuse/core',
+            //   // alias
+            //   ['useFetch', 'useMyFetch'] // import { useFetch as useMyFetch } from '@vueuse/core',
+            // ],
+            axios: [
+              // default imports
+              ['default', 'axios'] // import { default as axios } from 'axios',
+            ]
+          }
+        ],
+        // 要自动导入的目录的路径
+        dirs: ['./scr/components'],
+
+        resolvers: [ElementPlusResolver()],
+        // dts: './auto-import.d.ts', // 输出一个auto-imports.d.ts他的作用就是解决ts找不到变量的报错
+        // 兼容eslintrc规则对自动导入变量未定义的错误提示
+        eslintrc: {
+          enabled: true, // 默认false, true启用。生成一次就可以，避免每次工程启动都生成
+          filepath: './.eslintrc-auto-import.json', // 生成json文件
+          globalsPropValue: true
+        }
+      }),
+      // 自动注册组件
+      Components({
+        resolvers: [ElementPlusResolver()]
+      })
+    ],
     resolve: {
       alias: {
         // 配置scr路径别名
