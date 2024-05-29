@@ -2,6 +2,8 @@
 const open = () => {
   ElMessage('This is a message.')
 }
+// import { getDay } from './util/util.js'
+getDay()
 </script>
 
 <template>

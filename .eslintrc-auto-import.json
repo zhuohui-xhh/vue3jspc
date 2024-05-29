@@ -70,6 +70,7 @@
     "watchSyncEffect": true,
     "ElMessage": true,
     "axios": true,
-    "viteConfig": true
+    "viteConfig": true,
+    "getDay": true
   }
 }

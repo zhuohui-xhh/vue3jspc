@@ -36,8 +36,10 @@ export default defineConfig(({ command, mode }) => {
             ]
           }
         ],
-        // 要自动导入的目录的路径
-        dirs: ['./scr/components'],
+        // 要自动导入的目录的路径,这里自动导入的是js文件，里面例如 可以
+        // 可以省略这个引入：// import { getDay } from './util/util.js'
+        // 直接调用getDay()
+        dirs: ['./src/util/**'],
 
         resolvers: [ElementPlusResolver()],
         // dts: './auto-import.d.ts', // 输出一个auto-imports.d.ts他的作用就是解决ts找不到变量的报错
@@ -50,7 +52,10 @@ export default defineConfig(({ command, mode }) => {
       }),
       // 自动注册组件
       Components({
-        resolvers: [ElementPlusResolver()]
+        resolvers: [ElementPlusResolver()],
+        // dirs:这里引入并注册了组件
+        // 要自动导入的目录的路径 :这里的默认值也是：'./src/components'
+        dirs: ['./src/components']
       })
     ],
     resolve: {
