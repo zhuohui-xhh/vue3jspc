@@ -7,13 +7,6 @@ const open = () => {
 getInfo({ page: 1, pageSize: 10 }).then((data) => {
   console.log(data)
 })
-
-let res = await getInfo({ page: 1, pageSize: 10 })
-console.log(res, 'res')
-const iconConfig = {
-  color: 'red',
-  size: '20'
-}
 </script>
 
 <template>
@@ -37,10 +30,9 @@ const iconConfig = {
     <!-- i 是修改的路径-ep是图标集合-search是图标名称 -->
     <el-icon size="25"><i-ep-search /></el-icon>
     <el-icon size="25"><i-ep-plus /></el-icon>
-    <el-icon :size="iconConfig.size" :color="iconConfig.color"><i-ep-burger /></el-icon>
   </div>
   <div class="red">23423423423423</div>
-  <!-- <RouterView /> -->
+  <RouterView />
 </template>
 
 <style scoped lang="scss">
