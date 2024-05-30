@@ -2,15 +2,16 @@
 const open = () => {
   ElMessage('This is a message.')
 }
-// import { getDay } from './util/util.js'
 // getDay()
 getInfo({ page: 1, pageSize: 10 }).then((data) => {
   console.log(data)
 })
+console.log(123132123123123)
 </script>
 
 <template>
   <header>
+    <!-- <img src="@/assets/1.png" alt="" /> -->
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
     <div class="wrapper">

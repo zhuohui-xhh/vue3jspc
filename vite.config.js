@@ -2,6 +2,11 @@ import { fileURLToPath, URL } from 'node:url'
 
 import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
+// npm i  terser   -D  剔除console.log
+// npm i vite-plugin-imagemin -D
+import viteImagemin from 'vite-plugin-imagemin'
+// npm i vite-plugin-compression -D
+import viteCompression from 'vite-plugin-compression'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
 import AutoImport from 'unplugin-auto-import/vite'
@@ -79,6 +84,47 @@ export default defineConfig(({ command, mode }) => {
       }),
       Icons({
         autoInstall: true
+      }),
+      //代码体积压缩--生成的gizp压缩文件需要nginx配置一个操作才可以正常访问
+      viteCompression({
+        algorithm: 'gzip',
+        threshold: 10240,
+        verbose: false,
+        deleteOriginFile: true
+      }),
+      // 图片压缩 https://www.jianshu.com/p/8ce0a7769f6e
+      viteImagemin({
+        // gif图片压缩
+        gifsicle: {
+          optimizationLevel: 3, // 选择1到3之间的优化级别
+          interlaced: false // 隔行扫描gif进行渐进式渲染
+          // colors: 2 // 将每个输出GIF中不同颜色的数量减少到num或更少。数字必须介于2和256之间。
+        },
+        // png
+        optipng: {
+          optimizationLevel: 7 // 选择0到7之间的优化级别
+        },
+        // jpeg
+        mozjpeg: {
+          quality: 20 // 压缩质量，范围从0(最差)到100(最佳)。
+        },
+        // png
+        pngquant: {
+          quality: [0.8, 0.9], // Min和max是介于0(最差)到1(最佳)之间的数字，类似于JPEG。达到或超过最高质量所需的最少量的颜色。如果转换导致质量低于最低质量，图像将不会被保存。
+          speed: 4 // 压缩速度，1(强力)到11(最快)
+        },
+        // svg压缩
+        svgo: {
+          plugins: [
+            {
+              name: 'removeViewBox'
+            },
+            {
+              name: 'removeEmptyAttrs',
+              active: false
+            }
+          ]
+        }
       })
     ],
     resolve: {
@@ -119,6 +165,50 @@ export default defineConfig(({ command, mode }) => {
           rewrite: (path) => path.replace(/^\/api/, '')
         }
       }
+    },
+
+    //打包配置 默认这里是生产环境运行
+    build: {
+      //浏览器兼容性  "esnext"|"modules"
+      target: 'modules',
+      //指定输出路径
+      outDir: 'dist',
+      //生成静态资源的存放路径
+      assetsDir: 'assets',
+      //小于此阈值的导入或引用资源将内联为 base64 编码，以避免额外的 http 请求。设置为 0 可以完全禁用此项
+      assetsInlineLimit: 4096,
+      //启用/禁用 CSS 代码拆分
+      cssCodeSplit: true,
+      //构建后是否生成 source map 文件
+      sourcemap: false,
+      //自定义底层的 Rollup 打包配置
+      rollupOptions: {},
+      //@rollup/plugin-commonjs 插件的选项
+      commonjsOptions: {},
+      //构建的库
+      // lib: {},
+      //当设置为 true，构建后将会生成 manifest.json 文件
+      manifest: false,
+      // 设置为 false 可以禁用最小化混淆，
+      // 或是用来指定使用哪种混淆器
+      // boolean | 'terser' | 'esbuild'
+      minify: 'terser', //terser 构建后文件体积更小
+      //传递给 Terser 的更多 minify 选项。
+      terserOptions: {
+        //生产环境不要日志，去掉console,debugger
+        compress: {
+          drop_console: true,
+          drop_debugger: true
+        }
+      },
+      //设置为 false 来禁用将构建后的文件写入磁盘
+      write: true,
+      //默认情况下，若 outDir 在 root 目录下，则 Vite 会在构建时清空该目录。
+      emptyOutDir: true,
+      //启用/禁用 brotli 压缩大小报告
+      // brotliSize: true,
+      //chunk 大小警告的限制
+      chunkSizeWarningLimit: 500
     }
   }
 })
