@@ -33,10 +33,14 @@ const iconConfig = {
     <el-icon size="25"><i-ep-plus /></el-icon>
     <el-icon :size="iconConfig.size" :color="iconConfig.color"><i-ep-burger /></el-icon>
   </div>
+  <div class="red">23423423423423</div>
   <!-- <RouterView /> -->
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+.red {
+  color: $red;
+}
 header {
   line-height: 1.5;
   max-height: 100vh;

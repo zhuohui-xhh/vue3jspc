@@ -80,6 +80,16 @@ export default defineConfig(({ command, mode }) => {
         '@': fileURLToPath(new URL('./src', import.meta.url))
       }
     },
+
+    css: {
+      preprocessorOptions: {
+        scss: {
+          javascriptEnabled: true,
+          additionalData: '@import "./src/style/variable.scss";'
+        }
+      }
+    },
+
     // vite 配置 - 添加全局环境变量，可以在js代码中直接访问到
     // 当前功能可以使用-import.meta.env代替
     // define: {
