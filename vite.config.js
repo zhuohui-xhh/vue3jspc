@@ -7,6 +7,7 @@ import IconsResolver from 'unplugin-icons/resolver'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import { viteMockServe } from 'vite-plugin-mock'
 
 // 配置文件中访问环境变量
 export default defineConfig(({ command, mode }) => {
@@ -17,6 +18,12 @@ export default defineConfig(({ command, mode }) => {
     // dev 独有配置
     plugins: [
       vue(),
+      // 数据模拟
+      viteMockServe({
+        // default
+        mockPath: 'mock',
+        localEnabled: command === 'serve'
+      }),
       // 自动导入组件
       AutoImport({
         //预设名称或自定义导入映射: 自动导入 Vue 相关函数，如：ref, reactive, toRef 等
@@ -41,7 +48,7 @@ export default defineConfig(({ command, mode }) => {
         // 要自动导入的目录的路径,这里自动导入的是js文件，里面例如 可以
         // 可以省略这个引入：// import { getDay } from './util/util.js'
         // 直接调用getDay()
-        dirs: ['./src/util/**'],
+        dirs: ['./src/util/**', './src/api/**'],
 
         // 自动导入 Element Plus 相关函数，如：ElMessage, ElMessageBox... (带样式)
         resolvers: [ElementPlusResolver()],

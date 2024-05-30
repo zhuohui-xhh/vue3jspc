@@ -71,6 +71,8 @@
     "ElMessage": true,
     "axios": true,
     "viteConfig": true,
-    "getDay": true
+    "getDay": true,
+    "getInfo": true,
+    "request": true
   }
 }

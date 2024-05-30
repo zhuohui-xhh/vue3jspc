@@ -4,6 +4,12 @@ const open = () => {
 }
 // import { getDay } from './util/util.js'
 // getDay()
+getInfo({ page: 1, pageSize: 10 }).then((data) => {
+  console.log(data)
+})
+
+let res = await getInfo({ page: 1, pageSize: 10 })
+console.log(res, 'res')
 const iconConfig = {
   color: 'red',
   size: '20'
