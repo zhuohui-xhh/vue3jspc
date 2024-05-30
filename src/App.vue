@@ -3,7 +3,11 @@ const open = () => {
   ElMessage('This is a message.')
 }
 // import { getDay } from './util/util.js'
-getDay()
+// getDay()
+const iconConfig = {
+  color: 'red',
+  size: '20'
+}
 </script>
 
 <template>
@@ -19,8 +23,17 @@ getDay()
       </nav>
     </div>
   </header>
+  <div>
+    <!-- 这个是elementPlus 自带的引入方式 -->
+    <el-icon size="25"><i-ep-search /></el-icon>
 
-  <RouterView />
+    <!-- 这个是我们引入的icon 自动导入的引入方式 -->
+    <!-- i 是修改的路径-ep是图标集合-search是图标名称 -->
+    <el-icon size="25"><i-ep-search /></el-icon>
+    <el-icon size="25"><i-ep-plus /></el-icon>
+    <el-icon :size="iconConfig.size" :color="iconConfig.color"><i-ep-burger /></el-icon>
+  </div>
+  <!-- <RouterView /> -->
 </template>
 
 <style scoped>

@@ -2,6 +2,8 @@ import { fileURLToPath, URL } from 'node:url'
 
 import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import Icons from 'unplugin-icons/vite'
+import IconsResolver from 'unplugin-icons/resolver'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
@@ -41,6 +43,7 @@ export default defineConfig(({ command, mode }) => {
         // 直接调用getDay()
         dirs: ['./src/util/**'],
 
+        // 自动导入 Element Plus 相关函数，如：ElMessage, ElMessageBox... (带样式)
         resolvers: [ElementPlusResolver()],
         // dts: './auto-import.d.ts', // 输出一个auto-imports.d.ts他的作用就是解决ts找不到变量的报错
         // 兼容eslintrc规则对自动导入变量未定义的错误提示
@@ -52,10 +55,23 @@ export default defineConfig(({ command, mode }) => {
       }),
       // 自动注册组件
       Components({
-        resolvers: [ElementPlusResolver()],
+        resolvers: [
+          // Auto register Element Plus components
+          // 自动导入 Element Plus 组件
+          ElementPlusResolver(),
+          // Auto register icon components
+          // 自动注册图标组件
+          IconsResolver({
+            prefix: 'i', //<!-- i 是修改的路径-ep是图标集合-search是图标名称 -->
+            enabledCollections: ['ep']
+          })
+        ],
         // dirs:这里引入并注册了组件
         // 要自动导入的目录的路径 :这里的默认值也是：'./src/components'
         dirs: ['./src/components']
+      }),
+      Icons({
+        autoInstall: true
       })
     ],
     resolve: {
