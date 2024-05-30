@@ -19,8 +19,8 @@ export default defineConfig(({ command, mode }) => {
   // 根据当前工作目录中的 `mode` 加载 .env 文件
   // 设置第三个参数为 '' 来加载所有环境变量，而不管是否有 `VITE_` 前缀。
   const env = loadEnv(mode, process.cwd(), '')
+  console.log(mode, 'mode')
   return {
-    // dev 独有配置
     plugins: [
       vue(),
       // 数据模拟
@@ -182,7 +182,14 @@ export default defineConfig(({ command, mode }) => {
       //构建后是否生成 source map 文件
       sourcemap: false,
       //自定义底层的 Rollup 打包配置
-      rollupOptions: {},
+      rollupOptions: {
+        // 代码分割，配合组件的按需引入
+        output: {
+          entryFileNames: `assets/[name].[hash].js`,
+          chunkFileNames: `assets/[name].[hash].js`,
+          assetFileNames: `assets/[name].[hash].[ext]`
+        }
+      },
       //@rollup/plugin-commonjs 插件的选项
       commonjsOptions: {},
       //构建的库
