@@ -73,6 +73,7 @@
     "viteConfig": true,
     "getDay": true,
     "getInfo": true,
-    "request": true
+    "request": true,
+    "getMessage": true
   }
 }

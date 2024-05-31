@@ -2,7 +2,7 @@
 const open = () => {
   ElMessage('This is a message.')
 }
-// getDay()
+getDay()
 getInfo({ page: 1, pageSize: 10 }).then((data) => {
   console.log(data)
 })

@@ -206,8 +206,8 @@ export default defineConfig(({ command, mode }) => {
       terserOptions: {
         //生产环境不要日志，去掉console,debugger
         compress: {
-          drop_console: true,
-          drop_debugger: true
+          drop_console: isProduction,
+          drop_debugger: isProduction
         }
       },
       //设置为 false 来禁用将构建后的文件写入磁盘
