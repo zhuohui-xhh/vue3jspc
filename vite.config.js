@@ -19,7 +19,7 @@ export default defineConfig(({ command, mode }) => {
   // 根据当前工作目录中的 `mode` 加载 .env 文件
   // 设置第三个参数为 '' 来加载所有环境变量，而不管是否有 `VITE_` 前缀。
   const env = loadEnv(mode, process.cwd(), '')
-  console.log(mode, 'mode')
+  const isProduction = mode === 'production'
   return {
     plugins: [
       vue(),
@@ -90,7 +90,9 @@ export default defineConfig(({ command, mode }) => {
         algorithm: 'gzip',
         threshold: 10240,
         verbose: false,
-        deleteOriginFile: true
+        // 配置：是否删除源文件，如果是npm run build:test 不删除源文件方便做本地预览npm run preview;
+        // 如果是npm run build:pro ;这删除压缩后的源文件，减小包体积，方便做部署；
+        deleteOriginFile: isProduction
       }),
       // 图片压缩 https://www.jianshu.com/p/8ce0a7769f6e
       viteImagemin({
